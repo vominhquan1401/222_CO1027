@@ -479,14 +479,16 @@ void adventureToKoopa(string file_input, int &HP, int &level, int &remedy, int &
         input_file.close();
     }
 
-    display(HP, level, remedy, maidenkiss, phoenixdown, rescue);
-
     Knight knight(HP, level, remedy, maidenkiss, phoenixdown);
+
+    cout << "Init State: \n"
+         << knight.toString() << endl;
 
     for (int i = 0; i < num_events; i++)
     {
         int b = (i + 1) % 10;
         int levelO = (i + 1) > 6 ? (b > 5 ? b : 5) : b;
+        cout << "Round: " << i + 1 << endl;
         cout << "LevelO: " << levelO << endl;
         int event = events[i];
         cout << "Event: " << event << endl;
@@ -570,9 +572,11 @@ void adventureToKoopa(string file_input, int &HP, int &level, int &remedy, int &
         if (knight.getHP() < 1)
         {
             cout << "Ngu vcc" << endl;
+            cout << knight.toString() << endl;
             return;
         }
 
-        cout << knight.toString() << endl;
+        cout << "After round " << i + 1 << endl
+             << knight.toString() << endl;
     }
 }
