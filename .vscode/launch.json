@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}\\main.exe",
+            "args": ["${workspaceFolder}\\${input:inputFileName}"],
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "console": "externalTerminal"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "inputFileName",
+            "type": "promptString",
+            "description": "Please enter the input file name:"
+        }
+    ]
+}
