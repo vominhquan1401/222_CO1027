@@ -27,11 +27,11 @@ public:
     virtual ~Enemy() {}
     virtual int getLevel()
     {
-        return level;
+        return this->level;
     }
     virtual int getDamage()
     {
-        return level * base_damage;
+        return this->level * base_damage;
     }
 };
 
@@ -74,17 +74,17 @@ public:
     // Constructor
     Shaman(int lvl)
     {
-        setLevel(lvl);
+        this->level = lvl;
     }
 
     int getLevel() const
     {
-        return level;
+        return this->level;
     }
 
     void setLevel(int lvl)
     {
-        level = lvl;
+        this->level = lvl;
     }
 };
 
@@ -97,17 +97,17 @@ public:
     // Constructor
     Vajsh(int lvl)
     {
-        setLevel(lvl);
+        this->level = lvl;
     }
 
     int getLevel() const
     {
-        return level;
+        return this->level;
     }
 
     void setLevel(int lvl)
     {
-        level = lvl;
+        this->level = lvl;
     }
 };
 
@@ -131,21 +131,21 @@ public:
     // Constructor
     Knight(int hp, int lvl, int rmd, int mk, int pd)
     {
-        setHP(hp);
-        setMaxHP(hp);
-        setLevel(lvl);
-        setRemedy(rmd);
-        setMaidenKiss(mk);
-        setPhoenixDown(pd);
+        this->HP = hp;
+        this->MaxHP = hp;
+        this->level = lvl;
+        this->remedy = rmd;
+        this->maidenkiss = mk;
+        this->phoenixdown = pd;
 
-        if (HP == 999)
+        if (this->HP == 999)
         {
-            isArthur = true;
+            this->isArthur = true;
         }
 
-        if (isPrime(HP))
+        if (isPrime(this->HP))
         {
-            isLancelot = true;
+            this->isLancelot = true;
         }
     }
 
@@ -155,94 +155,95 @@ public:
     // Getters
     int getHP() const
     {
-        return HP;
+        return this->HP;
     }
 
     int getMaxHP() const
     {
-        return MaxHP;
+        return this->MaxHP;
     }
 
     int getLevel() const
     {
-        return level;
+        return this->level;
     }
 
     int getRemedy() const
     {
-        return remedy;
+        return this->remedy;
     }
 
     int getMaidenKiss() const
     {
-        return maidenkiss;
+        return this->maidenkiss;
     }
 
     int getPhoenixDown() const
     {
-        return phoenixdown;
+        return this->phoenixdown;
     }
 
     bool getisArthur() const
     {
-        return isArthur;
+        return this->isArthur;
     }
 
     bool getisLancelot() const
     {
-        return isLancelot;
+        return this->isLancelot;
     }
 
     bool getisDwarf()
     {
-        return isDwarf;
+        return this->isDwarf;
     }
 
     bool getisFrog()
     {
-        return isFrog;
+        return this->isFrog;
     }
 
     int getLevelFrog()
     {
-        return lvlFrog;
+        return this->lvlFrog;
     }
 
     int getCountAffect()
     {
-        return countAffect;
+        return this->countAffect;
     }
     // Setters
     void setHP(int hp)
     {
-        if (hp < MaxHP)
+        if (hp < this->MaxHP)
         {
-            HP = hp;
+            this->HP = hp;
         }
         else
         {
-            HP = MaxHP;
+            cout << "DMM";
+            this->HP = this->MaxHP;
         }
     }
 
     void setMaxHP(int maxhp)
     {
-        MaxHP = maxhp;
+        this->MaxHP = maxhp;
     }
 
     void setLevel(int lvl)
     {
         if (lvl < 1)
         {
-            level = 1;
+            this->level = 1;
         }
         else if (lvl > 10)
         {
-            level = 10;
+            this->level = 10;
         }
         else
         {
-            level = lvl;
+            this->level = lvl;
         }
     }
 
@@ -250,15 +251,15 @@ public:
     {
         if (rmd < 0)
         {
-            remedy = 0;
+            this->remedy = 0;
         }
         else if (rmd > 99)
         {
-            remedy = 99;
+            this->remedy = 99;
         }
         else
         {
-            remedy = rmd;
+            this->remedy = rmd;
         }
     }
 
@@ -266,15 +267,15 @@ public:
     {
         if (mk < 0)
         {
-            maidenkiss = 0;
+            this->maidenkiss = 0;
         }
         else if (mk > 99)
         {
-            maidenkiss = 99;
+            this->maidenkiss = 99;
         }
         else
         {
-            maidenkiss = mk;
+            this->maidenkiss = mk;
         }
     }
 
@@ -282,15 +283,15 @@ public:
     {
         if (pd < 0)
         {
-            phoenixdown = 0;
+            this->phoenixdown = 0;
         }
         else if (pd > 99)
         {
-            phoenixdown = 99;
+            this->phoenixdown = 99;
         }
         else
         {
-            phoenixdown = pd;
+            this->phoenixdown = pd;
         }
     }
 
@@ -311,48 +312,43 @@ public:
 
     void setCountAffect(int count)
     {
-        countAffect = count;
+        this->countAffect = count;
     }
 
     std::string toString()
     {
         std::stringstream ss;
-        ss << "HP: " << getHP() << "\n";
-        ss << "Level: " << getLevel() << "\n";
-        ss << "Arthur: " << (getisArthur() ? "yes" : "no") << "\n";
-        ss << "Lancelot: " << (getisLancelot() ? "yes" : "no") << "\n";
-        ss << "Is Dwarf: " << (getisDwarf() ? "yes" : "no") << "\n";
-        ss << "Is Frog: " << (getisFrog() ? "yes" : "no") << "\n";
-        ss << "Remedy: " << getRemedy() << "\n";
-        ss << "Maidenkiss: " << getMaidenKiss() << "\n";
-        ss << "Phoenixdown: " << getPhoenixDown() << "\n";
+        ss << "HP: " << this->HP << "\n";
+        ss << "Level: " << this->level << "\n";
+        ss << "Arthur: " << (this->isArthur ? "yes" : "no") << "\n";
+        ss << "Lancelot: " << (this->isLancelot ? "yes" : "no") << "\n";
+        ss << "Is Dwarf: " << (this->isDwarf ? "yes" : "no") << "\n";
+        ss << "Is Frog: " << (this->isFrog ? "yes" : "no") << "\n";
+        ss << "Remedy: " << this->remedy << "\n";
+        ss << "Maidenkiss: " << this->maidenkiss << "\n";
+        ss << "Phoenixdown: " << this->phoenixdown << "\n";
         return ss.str();
     }
 
     void fight(Enemy enemy)
     {
-        int enemyLevel = enemy.getLevel();
-        int enemyDamage = enemy.getDamage();
-        int knightLevel = getLevel();
-        int knightHP = getHP();
 
-        if (knightLevel > enemyLevel || getisArthur() || getisArthur())
+        if (this->level > enemy.getLevel() || this->isArthur || this->isLancelot)
         {
             // Knight wins
-            if (knightLevel < 10)
+            if (this->level < 10)
             {
-                setLevel(knightLevel + 1);
+                setLevel(this->level + 1);
             }
         }
-        else if (knightLevel == enemyLevel)
+        else if (this->level == enemy.getLevel())
         {
             // Draw
-            cout << "DRAW" << endl;
         }
         else
         {
             // Knight loses
-            int newHP = knightHP - enemyDamage;
+            int newHP = this->HP - enemy.getDamage();
             if (newHP < 1)
             {
                 if (getPhoenixDown() > 0)
@@ -368,41 +364,41 @@ public:
 
     void fight(Shaman shaman)
     {
-        int knightLevel = getLevel();
-        int knightHP = getHP();
 
-        if (knightLevel > shaman.getLevel() || getisArthur() || getisArthur())
+        if (this->level > shaman.getLevel() || this->isArthur || this->isLancelot)
         {
             // Knight wins
-            if (knightLevel < 10)
+            if (this->level < 10)
             {
-                setLevel(knightLevel + 2);
+                setLevel(this->level + 2);
             }
         }
-        else if (level == shaman.getLevel())
+        else if (this->level == shaman.getLevel())
         {
             // Draw
         }
         else
         {
             // Lose
-            if (getRemedy() > 0)
+            if (this->remedy > 0)
             {
-                setRemedy(getRemedy() - 1);
+                setRemedy(this->remedy - 1);
+                int newHP = this->HP / 5;
+                setHP(newHP * 5);
             }
             else
             {
                 // turn the knight into a dwarf for the next 3 events
                 setisDwarf(true);
                 setCountAffect(0);
-                int newHP = HP / 5;
-                if (HP < 5)
+                int newHP = this->HP / 5;
+                if (newHP < 5)
                 {
-                    newHP = 1;
+                    setHP(1);
                 }
                 else
                 {
-                    HP = newHP;
+                    setHP(newHP);
                 }
             }
         }
@@ -410,27 +406,24 @@ public:
 
     void fight(Vajsh vajsh)
     {
-        int knightLevel = getLevel();
-        int knightHP = getHP();
-
-        if (knightLevel > vajsh.getLevel() || getisArthur() || getisArthur())
+        if (this->level > vajsh.getLevel() || this->isArthur || this->isLancelot)
         {
             // Knight wins
-            if (knightLevel < 10)
+            if (this->level < 10)
             {
-                setLevel(knightLevel + 1);
+                setLevel(this->level + 1);
             }
         }
-        else if (level == vajsh.getLevel())
+        else if (this->level == vajsh.getLevel())
         {
             // Draw
         }
         else
         {
             // Lose
-            if (getMaidenKiss() > 0)
+            if (this->maidenkiss > 0)
             {
-                setMaidenKiss(getMaidenKiss() - 1);
+                setMaidenKiss(this->maidenkiss - 1);
             }
             else
             {
@@ -485,15 +478,10 @@ void adventureToKoopa(string file_input, int &HP, int &level, int &remedy, int &
         getline(iss2, file_merlin_pack);
         input_file.close();
     }
-    else
-    {
-        cout << "Error" << endl;
-        return;
-    }
+
+    display(HP, level, remedy, maidenkiss, phoenixdown, rescue);
 
     Knight knight(HP, level, remedy, maidenkiss, phoenixdown);
-
-    cout << knight.toString() << endl;
 
     for (int i = 0; i < num_events; i++)
     {
@@ -579,12 +567,12 @@ void adventureToKoopa(string file_input, int &HP, int &level, int &remedy, int &
             }
         }
 
-        cout << knight.toString() << endl;
-
         if (knight.getHP() < 1)
         {
             cout << "Ngu vcc" << endl;
             return;
         }
+
+        cout << knight.toString() << endl;
     }
 }
