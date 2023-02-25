@@ -124,6 +124,8 @@ private:
     bool isLancelot = false;
     bool isDwarf = false;
     bool isFrog = false;
+    bool isMeetMerlin = false;
+    bool isMeetAsclepius = false;
     int lvlFrog = 0;
     int countAffect = 0;
 
@@ -203,6 +205,16 @@ public:
         return this->isFrog;
     }
 
+    bool getisMeetMerlin()
+    {
+        return this->isMeetMerlin;
+    }
+
+    bool getisMeetAsclepius()
+    {
+        return this->isMeetAsclepius;
+    }
+
     int getLevelFrog()
     {
         return this->lvlFrog;
@@ -221,7 +233,6 @@ public:
         }
         else
         {
-            cout << "DMM";
             this->HP = this->MaxHP;
         }
     }
@@ -303,6 +314,16 @@ public:
     void setisFrog(bool isFrog)
     {
         this->isFrog = isFrog;
+    }
+
+    void setisMeetMerlin(bool isMeetMerlin)
+    {
+        this->isMeetMerlin = isMeetMerlin;
+    }
+
+    void setisMeetAsclepius(bool isMeetAsclepius)
+    {
+        this->isMeetAsclepius = isMeetAsclepius;
     }
 
     void setLevelFrog(int lvlFrog)
@@ -435,6 +456,290 @@ public:
             }
         }
     }
+
+    void handleMushMario()
+    {
+        int n1 = ((this->level + this->phoenixdown) % 5 + 1) * 3;
+
+        int s1 = 0;
+        int count = 0;
+        for (int i = 99; i >= 1 && count < n1; i -= 2)
+        {
+            s1 += i;
+            count++;
+        }
+
+        int newHP = this->HP + (s1 % 100);
+        int prime = newHP;
+        while (!isPrime(prime))
+        {
+            prime++;
+        }
+        setHP(prime);
+    }
+
+    void handleMushFibo()
+    {
+        if (this->HP > 1)
+        {
+            int prev = 1, curr = 1, fibo = 1;
+            while (fibo <= this->HP)
+            {
+                prev = curr;
+                curr = fibo;
+                fibo = prev + curr;
+            }
+            setHP(fibo);
+        }
+    }
+
+    void handleGhostMushRoom(char type, int arr[], int n)
+    {
+        if (type == '1')
+        {
+            int max_val = arr[0], min_val = arr[0];
+            int max_last_occurrence = 0, min_last_occurrence = 0;
+            for (int i = 1; i < n; i++)
+            {
+                if (arr[i] > max_val)
+                {
+                    max_val = arr[i];
+                    max_last_occurrence = i;
+                }
+                if (arr[i] < min_val)
+                {
+                    min_val = arr[i];
+                    min_last_occurrence = i;
+                }
+            }
+
+            setHP(this->HP -= (max_last_occurrence + min_last_occurrence));
+        }
+        if (type == '2')
+        {
+            int mtx = -2, mti = -3;
+
+            for (int i = 1; i < n - 1; i++)
+            {
+                if (arr[i] > arr[i - 1] && arr[i] > arr[i + 1])
+                {
+                    mtx = arr[i];
+                    mti = i;
+                    break;
+                }
+            }
+
+            setHP(this->HP -= (mtx + mti));
+        }
+        if (type == '3')
+        {
+            // Perform transformations on the array
+            for (int i = 0; i < n; i++)
+            {
+                if (arr[i] < 0)
+                {
+                    arr[i] = -arr[i];
+                }
+                arr[i] = (17 * arr[i] + 9) % 257;
+            }
+
+            // Find the positions of the max and min values in the transformed array
+            int maxi2 = 0, mini2 = 0;
+            for (int i = 1; i < n; i++)
+            {
+                if (arr[i] > arr[maxi2])
+                {
+                    maxi2 = i;
+                }
+                if (arr[i] < arr[mini2])
+                {
+                    mini2 = i;
+                }
+            }
+
+            // Calculate HP and print the result
+            setHP(this->HP -= (maxi2 + mini2));
+        }
+        if (type == '4')
+        {
+            // Transform the array
+            for (int i = 0; i < n; i++)
+            {
+                if (arr[i] < 0)
+                {
+                    arr[i] = -arr[i];
+                }
+                else
+                {
+                    arr[i] = (17 * arr[i] + 9) % 257;
+                }
+            }
+
+            // Find the second largest number and its position in the first three numbers of the array
+            int max2_3x = -5, max2_3i = -7;
+            if (n >= 1)
+            {
+                max2_3x = arr[0];
+                max2_3i = 0;
+            }
+            if (n >= 2)
+            {
+                if (arr[1] > max2_3x)
+                {
+                    max2_3i = 1;
+                    max2_3x = arr[1];
+                }
+                else if (arr[1] < max2_3x && arr[1] > arr[max2_3i])
+                {
+                    max2_3i = 1;
+                }
+            }
+            if (n >= 3)
+            {
+                if (arr[2] > max2_3x)
+                {
+                    max2_3i = 2;
+                    max2_3x = arr[2];
+                }
+                else if (arr[2] < max2_3x && arr[2] > arr[max2_3i])
+                {
+                    max2_3i = 2;
+                }
+            }
+
+            // Update HP
+            setHP(this->HP -= (max2_3x + max2_3i));
+        }
+    }
+
+    void handleMeetMerlin(string file_merlin_pack)
+    {
+        ifstream file;
+        file.open(file_merlin_pack);
+        if (!file)
+        {
+            cerr << "Hmu Hmu";
+            return;
+        }
+
+        int n9;
+        file >> n9;
+        string items[n9];
+        for (int i = 0; i < n9; i++)
+        {
+            file >> items[i];
+        }
+
+        for (int i = 0; i < n9; i++)
+        {
+            bool contains_all_chars = true;
+            bool contains_merlin = false;
+            for (char c : {'m', 'e', 'r', 'l', 'i', 'n'})
+            {
+                bool found = false;
+                for (char ch : items[i])
+                {
+                    if (tolower(ch) == c)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    contains_all_chars = false;
+                    break;
+                }
+            }
+            if (items[i].find("Merlin") != string::npos || items[i].find("merlin") != string::npos)
+            {
+                contains_merlin = true;
+            }
+            if (contains_all_chars)
+            {
+                if (contains_merlin)
+                {
+                    setHP(this->HP + 3);
+                }
+                else
+                {
+                    setHP(this->HP + 2);
+                }
+            }
+        }
+    }
+
+    void handleMeetAsclepius(string file_asclepius_pack)
+    {
+        ifstream infile(file_asclepius_pack);
+        if (!infile)
+        {
+            cout << "Hmu Hmu" << endl;
+            return;
+        }
+
+        int r1, c1;
+        infile >> r1 >> c1;
+
+        int medicines[r1][c1];
+        for (int i = 0; i < r1; i++)
+        {
+            for (int j = 0; j < c1; j++)
+            {
+                infile >> medicines[i][j];
+            }
+        }
+
+        infile.close();
+
+        int count_medicines_pick = 0;
+
+        for (int i = 0; i < r1; i++)
+        {
+            count_medicines_pick = 0;
+            for (int j = 0; j < c1; j++)
+            {
+                if (medicines[i][j] == 16 || medicines[i][j] == 17 || medicines[i][j] == 18)
+                {
+                    if (medicines[i][j] == 16)
+                    {
+                        setRemedy(getRemedy() + 1);
+                        if (getisDwarf())
+                        {
+                            setRemedy(getRemedy() - 1);
+                            setisDwarf(false);
+                            setHP(getHP() * 5);
+                            setCountAffect(0);
+                        }
+
+                        count_medicines_pick++;
+                    }
+                    if (medicines[i][j] == 17)
+                    {
+                        setMaidenKiss(getMaidenKiss() + 1);
+                        if (getisFrog())
+                        {
+                            setMaidenKiss(getMaidenKiss() - 1);
+                            setisFrog(false);
+                            setLevel(getLevelFrog());
+                            setCountAffect(0);
+                        }
+                        count_medicines_pick++;
+                    }
+                    if (medicines[i][j] == 18)
+                    {
+                        setPhoenixDown(getPhoenixDown() + 1);
+                        count_medicines_pick++;
+                    }
+                }
+                if (count_medicines_pick == 3)
+                {
+                    count_medicines_pick = 0;
+                    break;
+                }
+            }
+        }
+    }
 };
 
 void display(int HP, int level, int remedy, int maidenkiss, int phoenixdown, int rescue)
@@ -454,7 +759,7 @@ void adventureToKoopa(string file_input, int &HP, int &level, int &remedy, int &
     string file_asclepius_pack;
     string file_merlin_pack;
     int num_events = 0;
-    rescue = 0;
+    rescue = -1;
 
     ifstream input_file(file_input);
     if (input_file.is_open())
@@ -523,34 +828,80 @@ void adventureToKoopa(string file_input, int &HP, int &level, int &remedy, int &
             knight.fight(Vajsh(levelO));
             break;
         case 11: // Nhặt được nấm tăng lực MushMario
-
+            knight.handleMushMario();
             break;
         case 12: // Nhặt được nấm Fibonacci MushFib
-
-            break;
-        case 13: // Nhặt được nấm ma MushGhost
-
+            knight.handleMushFibo();
             break;
         case 15: // Nhặt được thuốc phục hồi Remedy
-
+            knight.setRemedy(knight.getRemedy() + 1);
             break;
         case 16: // Nhặt được thuốc giải MaidenKiss
-
+            knight.setMaidenKiss(knight.getMaidenKiss() + 1);
             break;
         case 17: // Nhặt được giọt nước mắt phượng hoàng PhoenixDown
-
+            knight.setPhoenixDown(knight.getPhoenixDown() + 1);
             break;
         case 18: // Gặp phù thuỷ Merlin
+            if (!knight.getisMeetMerlin())
+            {
+                knight.setisMeetMerlin(true);
+                knight.handleMeetMerlin(file_merlin_pack);
+            }
 
             break;
         case 19: // Gặp thần Asclepius
-
-            break;
+        {
+            if (!knight.getisMeetAsclepius())
+            {
+                knight.setisMeetAsclepius(true);
+                knight.handleMeetAsclepius(file_asclepius_pack);
+            }
+        }
+        break;
         case 99: // Gặp Bowser
+            if (knight.getLevel() >= 8)
+            {
+                if (knight.getisArthur() || knight.getisLancelot())
+                {
+                    knight.setLevel(10);
+                    break;
+                }
+                else if (knight.getLevel() == 10)
+                {
+                    break;
+                }
+            }
+            knight.setHP(0);
+            rescue = 0;
+            break;
+        default: // Nhặt được nấm ma MushGhost
+            ifstream file_in(file_mush_ghost);
+
+            if (!file_in.is_open())
+            {
+                cout << "Hmu hmu";
+                return;
+            }
+
+            int n2;
+            file_in >> n2;
+
+            int a[n2];
+            for (int i = 0; i < n2; i++)
+            {
+                file_in >> a[i];
+            }
+
+            file_in.close();
+
+            string ms = to_string(event).substr(2);
+            for (char c : ms)
+            {
+                knight.handleGhostMushRoom(c, a, n2);
+            }
 
             break;
-        default:
-            return;
         }
 
         if (knight.getCountAffect() == 3)
@@ -572,6 +923,7 @@ void adventureToKoopa(string file_input, int &HP, int &level, int &remedy, int &
         if (knight.getHP() < 1)
         {
             cout << "Ngu vcc" << endl;
+            rescue = 0;
             cout << knight.toString() << endl;
             return;
         }
@@ -579,4 +931,5 @@ void adventureToKoopa(string file_input, int &HP, int &level, int &remedy, int &
         cout << "After round " << i + 1 << endl
              << knight.toString() << endl;
     }
+    rescue = 1;
 }
