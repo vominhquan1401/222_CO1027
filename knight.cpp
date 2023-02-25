@@ -596,6 +596,9 @@ public:
                 }
                 for (int i = 0; i < 3; i++)
                 {
+                    if(second_max==max){
+                    break;
+                    }
                     if (arr[i] == second_max)
                     {
                         max2_3x = second_max;
