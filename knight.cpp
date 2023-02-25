@@ -577,33 +577,31 @@ public:
 
             // Find the second largest number and its position in the first three numbers of the array
             int max2_3x = -5, max2_3i = -7;
-            if (n >= 1)
-            {
-                max2_3x = arr[0];
-                max2_3i = 0;
-            }
-            if (n >= 2)
-            {
-                if (arr[1] > max2_3x)
-                {
-                    max2_3i = 1;
-                    max2_3x = arr[1];
-                }
-                else if (arr[1] < max2_3x && arr[1] > arr[max2_3i])
-                {
-                    max2_3i = 1;
-                }
-            }
             if (n >= 3)
             {
-                if (arr[2] > max2_3x)
+                int max = arr[0];
+                int second_max = arr[0];
+
+                for (int i = 0; i < n; i++)
                 {
-                    max2_3i = 2;
-                    max2_3x = arr[2];
+                    if (arr[i] > max)
+                    {
+                        second_max = max;
+                        max = arr[i];
+                    }
+                    else if (arr[i] > second_max && arr[i] != max)
+                    {
+                        second_max = arr[i];
+                    }
                 }
-                else if (arr[2] < max2_3x && arr[2] > arr[max2_3i])
+                for (int i = 0; i < 3; i++)
                 {
-                    max2_3i = 2;
+                    if (arr[i] == second_max)
+                    {
+                        max2_3x = second_max;
+                        max2_3i = i;
+                        break;
+                    }
                 }
             }
 
